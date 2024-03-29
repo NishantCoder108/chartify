@@ -86,7 +86,7 @@ function App() {
                 selectItems={["population", "area"]}
             />
 
-            <div className="h-96 ">
+            <div className="h-96 relative">
                 <AppChart data={chartD} changeChartData={changeChartData} />
             </div>
         </>
