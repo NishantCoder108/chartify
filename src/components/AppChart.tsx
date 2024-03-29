@@ -45,14 +45,26 @@ interface IProps {
 
 const AppChart = ({ data, changeChartData }: IProps) => {
     console.log({ data });
+    const [selectedPoints, setSelectedPoints] = useState<IClickedPoint[]>([]);
 
-    const [selectedPoint, setSelectedPoint] = useState<IClickedPoint | null>(
-        null
-    );
+    // const handlePointClick = (point: IClickedPoint) => {
+    //     console.log({ point });
+    //     setSelectedPoint(point);
+    // };
 
-    const handlePointClick = (point: IClickedPoint) => {
-        console.log({ point });
-        setSelectedPoint(point);
+    const handlePointClick = (point) => {
+        setSelectedPoints((prevSelectedPoints) => {
+            const pointIndex = prevSelectedPoints.findIndex(
+                (p) => p.x === point.data.x
+            );
+            if (pointIndex === -1) {
+                return [...prevSelectedPoints, point.data];
+            } else {
+                const updatedPoints = [...prevSelectedPoints];
+                updatedPoints.splice(pointIndex, 1);
+                return updatedPoints;
+            }
+        });
     };
     const CustomTooltip = ({ point }: PointTooltipProps) => (
         <div
@@ -69,9 +81,9 @@ const AppChart = ({ data, changeChartData }: IProps) => {
         </div>
     );
 
-    console.log({ selectedPoint });
+    console.log({ selectedPoints });
 
-    const debouncedHandlePointClick = debounce(handlePointClick, 250);
+    // const debouncedHandlePointClick = debounce(handlePointClick, 250);
     return (
         <>
             <div className="h-56 cursor-pointer overflow-hidden">
@@ -108,17 +120,25 @@ const AppChart = ({ data, changeChartData }: IProps) => {
                     gridYValues={19}
                     enableGridX={false}
                     pointSize={5}
-                    pointColor="blue"
+                    // pointColor="blue"
                     pointBorderWidth={1}
                     pointBorderColor={{ from: "serieColor" }}
                     pointLabelYOffset={-12}
                     enableTouchCrosshair={true}
                     colors={{ scheme: "category10" }}
-                    onClick={(point) =>
-                        debouncedHandlePointClick(point as IClickedPoint)
+                    // onClick={(point) =>
+                    //     debouncedHandlePointClick(point as IClickedPoint)
+                    // }
+
+                    onClick={handlePointClick}
+                    pointColor={(point) =>
+                        selectedPoints.some((p) => p.x === point.data.x)
+                            ? "red"
+                            : "blue"
                     }
                     onMouseEnter={(_datum, event) => {
-                        event.currentTarget.style.cursor = "pointer";
+                        (event.currentTarget as HTMLElement).style.cursor =
+                            "pointer";
                     }}
                     useMesh={true}
                     // layers={[
@@ -200,14 +220,18 @@ const AppChart = ({ data, changeChartData }: IProps) => {
                 />
             </div>
 
-            <div className="my-5 border border-teal-500">
-                {selectedPoint && (
-                    <div>
-                        <h2>Data for Point</h2>
-                        <p>X: {selectedPoint.data.x}</p>
-                        <p>Y: {selectedPoint.data.y}</p>
-                    </div>
-                )}
+            <div className="my-5 border border-teal-500 flex flex-wrap items-start justify-start gap-6">
+                {selectedPoints.length > 0 &&
+                    selectedPoints?.map((selectedPoint, i) => (
+                        <div
+                            key={selectedPoint.x + i}
+                            className="border border-slate-400 bg-slate-200 "
+                        >
+                            <h2>Data for Point</h2>
+                            <p>Country : {selectedPoint.x}</p>
+                            <p>Y: {formatPopulation(selectedPoint.y)}</p>
+                        </div>
+                    ))}
             </div>
         </>
     );
