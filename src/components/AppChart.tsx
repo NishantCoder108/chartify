@@ -3,6 +3,13 @@ import { debounce } from "@/lib/debounce";
 import { formatPopulation } from "@/lib/formatNumber";
 import { PointTooltipProps, ResponsiveLine } from "@nivo/line";
 import { useState } from "react";
+import * as d3 from "d3";
+
+interface Point {
+    x: string;
+    y: number;
+    yStacked: number;
+}
 
 interface IDataPoint {
     x: string;
@@ -50,6 +57,21 @@ const AppChart = ({ data, changeChartData }: IProps) => {
     // const handlePointClick = (point: IClickedPoint) => {
     //     console.log({ point });
     //     setSelectedPoint(point);
+    // };
+
+    // const handlePointClick = (point) => {
+    //     setSelectedPoints((prevSelectedPoints) => {
+    //         const pointIndex = prevSelectedPoints.findIndex(
+    //             (p) => p.x === point.data.x
+    //         );
+    //         if (pointIndex === -1) {
+    //             return [...prevSelectedPoints, point.data];
+    //         } else {
+    //             const updatedPoints = [...prevSelectedPoints];
+    //             updatedPoints.splice(pointIndex, 1);
+    //             return updatedPoints;
+    //         }
+    //     });
     // };
 
     const handlePointClick = (point) => {
@@ -130,12 +152,77 @@ const AppChart = ({ data, changeChartData }: IProps) => {
                     //     debouncedHandlePointClick(point as IClickedPoint)
                     // }
 
+                    // pointSymbol={(e) => {
+                    //     console.log({ e });
+                    //     let colorPunto = "";
+                    //     let colorBorde = "";
+
+                    //     switch (e.datum.x) {
+                    //         case "Eritrea":
+                    //             colorPunto = e.datum.valueI
+                    //                 ? "rgba(6,1,85,0.58)"
+                    //                 : "red";
+                    //             colorBorde = "rgb(6,1,85)";
+
+                    //             break;
+                    //         case "2":
+                    //             colorPunto = e.datum.valueI
+                    //                 ? "rgba(107,167,156,0.85)"
+                    //                 : "white";
+                    //             colorBorde = "rgba(42,146,77,1)";
+                    //             break;
+                    //     }
+
+                    //     return (
+                    //         <circle
+                    //             cx="0"
+                    //             cy="0"
+                    //             r="5"
+                    //             stroke={colorBorde}
+                    //             strokeWidth="2"
+                    //             fill={colorPunto}
+                    //         />
+                    //     );
+                    // }}
+
+                    pointSymbol={(e) => {
+                        const isSelected = selectedPoints.some(
+                            (selectedPoint) => selectedPoint.x === e.datum.x
+                        );
+                        const colorPunto = isSelected ? "red" : "blue";
+                        const colorBorde = isSelected
+                            ? "rgb(6,1,85)"
+                            : "rgba(6,1,85,0.58)";
+
+                        return (
+                            <circle
+                                cx="0"
+                                cy="0"
+                                r="5"
+                                stroke={colorBorde}
+                                strokeWidth="2"
+                                fill={colorPunto}
+                            />
+                        );
+                    }}
+                    // pointColor={(point) => {
+                    //     const isSelected = selectedPoints.some(
+                    //         (selectedPoint) => selectedPoint.x === point.data.x
+                    //     );
+                    //     return isSelected ? "red" : "blue";
+                    // }}
                     onClick={handlePointClick}
-                    pointColor={(point) =>
-                        selectedPoints.some((p) => p.x === point.data.x)
-                            ? "red"
-                            : "blue"
-                    }
+                    // pointColor={(point) => {
+                    //     const isSelected = selectedPoints.some(
+                    //         (selectedPoint) => {
+                    //             return point.data.some(
+                    //                 (p) => p.x === selectedPoint.x
+                    //             );
+                    //         }
+                    //     );
+                    //     return isSelected ? "red" : "blue";
+                    // }}
+                    // colors={["#00a9ff", "#ff0000"]}
                     onMouseEnter={(_datum, event) => {
                         (event.currentTarget as HTMLElement).style.cursor =
                             "pointer";
@@ -188,6 +275,8 @@ const AppChart = ({ data, changeChartData }: IProps) => {
                                 strokeDasharray: "2 2",
                             },
                         },
+
+                        background: "#EEEEEE",
                     }}
                     crosshairType="x"
                     tooltip={CustomTooltip}
