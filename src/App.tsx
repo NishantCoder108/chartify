@@ -178,13 +178,16 @@ function App() {
 
     if (chartData.populationData.length < 1) return;
     return (
-        <>
-            <AppSelect
-                handleValueChange={handleChangeValue}
-                selectItems={["population", "area"]}
-            />
+        <div className="p-3">
+            <div className="flex gap-4 items-center text-sm justify-start px-3 pt-4">
+                <h1>Select metric</h1>
+                <AppSelect
+                    handleValueChange={handleChangeValue}
+                    selectItems={["population", "area"]}
+                />
+            </div>
 
-            <div className="h-96 relative">
+            <div className="h-full py-10 overflow-hidden">
                 <AppChart
                     data={
                         selectedOption === "population"
@@ -194,7 +197,7 @@ function App() {
                     changeChartData={selectedOption}
                 />
             </div>
-        </>
+        </div>
     );
 }
 export default App;

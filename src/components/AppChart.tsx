@@ -1,6 +1,6 @@
 import { formatPopulation } from "@/lib/formatNumber";
 import { PointTooltipProps, ResponsiveLine } from "@nivo/line";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { customColors } from "@/lib/customColors";
 import { hexToRgba } from "@/lib/hexToRgba";
 import { IClickedPoint, ICountryDatum } from "@/types/Country";
@@ -60,7 +60,7 @@ const AppChart = ({ data, changeChartData }: IProps) => {
     const CustomTooltip = ({ point }: PointTooltipProps) => {
         // console.log("customtooltip", { point });
         return (
-            <div className="shadow-md py-3 px-4  bg-slate-50 rounded-md">
+            <div className="shadow-md py-3 px-4  bg-slate-50 rounded-md z-50">
                 <table className="table-fixed">
                     <tbody>
                         <tr className="text-sm font-semibold text-[#0f172a]">
@@ -82,10 +82,14 @@ const AppChart = ({ data, changeChartData }: IProps) => {
         );
     };
 
+    useEffect(() => {
+        // Reset selectedPoints when changeChartData changes
+        setSelectedPoints([]);
+    }, [changeChartData]);
     console.log({ selectedPoints });
     return (
         <>
-            <div className="h-56 cursor-pointer overflow-hidden">
+            <div className="h-56  ">
                 <ResponsiveLine
                     data={data}
                     margin={{ top: 50, right: 50, bottom: 15, left: 70 }}

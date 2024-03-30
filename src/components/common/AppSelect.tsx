@@ -18,18 +18,27 @@ export function AppSelect({ selectItems, handleValueChange }: ISelectItems) {
             defaultValue={selectItems[0]}
             onValueChange={(data: string) => handleValueChange(data)}
         >
-            <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder={selectItems[0]} />
-            </SelectTrigger>
-            <SelectContent>
-                <SelectGroup>
-                    {selectItems.map((item, i) => (
-                        <SelectItem key={item + i} value={item}>
-                            {item}
-                        </SelectItem>
-                    ))}
-                </SelectGroup>
-            </SelectContent>
+            <div className="bg-white">
+                <SelectTrigger className="w-[180px] cursor-pointer text-xs">
+                    <SelectValue
+                        placeholder={selectItems[0]}
+                        className="cursor-pointer text-xs"
+                    />
+                </SelectTrigger>
+                <SelectContent className="bg-white ">
+                    <SelectGroup className="cursor-pointer">
+                        {selectItems.map((item, i) => (
+                            <SelectItem
+                                key={item + i}
+                                value={item}
+                                className="cursor-pointer text-xs hover:bg-slate-200"
+                            >
+                                {item.toUpperCase()}
+                            </SelectItem>
+                        ))}
+                    </SelectGroup>
+                </SelectContent>
+            </div>
         </Select>
     );
 }

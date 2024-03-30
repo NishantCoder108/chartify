@@ -43,8 +43,8 @@ const CountryDetailsCard = ({ countryDetails }: IProps) => {
                     <p className="mt-1 text-slate-500 text-sm">
                         {capital} is the capital of {name}. It is located in the{" "}
                         {region} region and the {subregion} subregion. The
-                        country is part of the {continents} continent(s) and has
-                        a population of {population}.
+                        country is part of the {continents} continent and has a
+                        population of {formatPopulation(population, 2)}.
                     </p>
                 </div>
                 <div className="px-3 py-2 bg-gray-100 text-gray-700">
@@ -67,11 +67,9 @@ const CountryDetailsCard = ({ countryDetails }: IProps) => {
                                 ? currencyLanguages.join(", ")
                                 : currencyLanguages}
                         </li>
+
                         <li>
-                            <strong>Coordinates:</strong> {x}, {y}
-                        </li>
-                        <li>
-                            <strong>Area:</strong> {area}
+                            <strong>Area:</strong> {formatPopulation(area, 2)}
                         </li>
                     </ul>
                 </div>
