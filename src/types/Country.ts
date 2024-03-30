@@ -101,3 +101,15 @@ export interface ICountry {
 
     unMember: boolean;
 }
+
+export interface IClickedPoint {
+    id: string;
+    borderColor: string;
+    color: string;
+    index: number;
+    serieColor: string;
+    serieId: string;
+    x: number;
+    y: number;
+    data: ICountryDatum;
+}

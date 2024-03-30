@@ -3,7 +3,8 @@ import { PointTooltipProps, ResponsiveLine } from "@nivo/line";
 import { useState } from "react";
 import { customColors } from "@/lib/customColors";
 import { hexToRgba } from "@/lib/hexToRgba";
-import { ICountryDatum } from "@/types/Country";
+import { IClickedPoint, ICountryDatum } from "@/types/Country";
+import CountryDetailsCard from "./CountryDetailsCard";
 
 interface IDataPoint {
     x: string;
@@ -17,17 +18,6 @@ interface IClickedPointData {
     yFormatted: string;
     x: string;
     yStacked: number;
-}
-interface IClickedPoint {
-    id: string;
-    borderColor: string;
-    color: string;
-    index: number;
-    serieColor: string;
-    serieId: string;
-    x: number;
-    y: number;
-    data: ICountryDatum;
 }
 
 interface IDataPoint {
@@ -47,20 +37,22 @@ interface IProps {
 
 const AppChart = ({ data, changeChartData }: IProps) => {
     console.log({ data });
-    const [selectedPoints, setSelectedPoints] = useState<IClickedPoint[]>([]);
+    const [selectedPoints, setSelectedPoints] = useState<ICountryDatum[]>([]);
 
     const handlePointClick = (point: IClickedPoint | IClickedPoint[]) => {
         console.log("HandlePointclick", point);
 
-        setSelectedPoints((prevSelectedPoints: IClickedPoint[]) => {
+        setSelectedPoints((prevSelectedPoints: ICountryDatum[]) => {
             const pointIndex = prevSelectedPoints.findIndex(
                 (p) => p.x === point.data.x
             );
+
             if (pointIndex === -1) {
                 return [...prevSelectedPoints, point.data];
             } else {
                 const updatedPoints = [...prevSelectedPoints];
                 updatedPoints.splice(pointIndex, 1);
+
                 return updatedPoints;
             }
         });
@@ -137,13 +129,14 @@ const AppChart = ({ data, changeChartData }: IProps) => {
                             (selectedPoint) => selectedPoint.x === e.datum.x
                         );
 
-                        const color = isSelected
-                            ? customColors[
-                                  selectedPoints.findIndex(
-                                      (p) => p.x === e.datum.x
-                                  )
-                              ]
-                            : "blue";
+                        const customSelectedColor =
+                            customColors[
+                                selectedPoints.findIndex(
+                                    (p) => p.x === e.datum.x
+                                )
+                            ];
+
+                        const color = isSelected ? customSelectedColor : "blue";
                         return (
                             <circle
                                 cx="0"
@@ -212,18 +205,15 @@ const AppChart = ({ data, changeChartData }: IProps) => {
                 />
             </div>
 
-            <div className="my-5 border border-teal-500 flex flex-wrap items-start justify-start gap-6">
-                {selectedPoints.length > 0 &&
-                    selectedPoints?.map((selectedPoint, i) => (
-                        <div
-                            key={selectedPoint.x + i}
-                            className="border border-slate-400 bg-slate-200 "
-                        >
-                            <h2>Data for Point</h2>
-                            <p>Country : {selectedPoint.x}</p>
-                            <p>Y: {formatPopulation(selectedPoint.y)}</p>
-                        </div>
-                    ))}
+            <div className="my-11 p-1 lg:p-6   border-t-2  border-slate-200 flex flex-wrap items-start justify-evenly gap-6">
+                {selectedPoints.length > 0
+                    ? selectedPoints?.map((selectedPoint, i) => (
+                          <CountryDetailsCard
+                              key={selectedPoint.x + i}
+                              countryDetails={selectedPoint}
+                          />
+                      ))
+                    : "No selected points."}
             </div>
         </>
     );

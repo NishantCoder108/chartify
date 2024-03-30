@@ -37,17 +37,8 @@ interface ICountryDetails {
 }
 
 function App() {
-    // const [countryDetails, setCountryDetails] = useState([]);
-    // const [changeChartData, setChangeChartData] = useState("population");
-    // const [chartData, setChartData] = useState({
-    //     populationData: [],
-    //     areaData: [],
-    // });
-
     const [countryDetails, setCountryDetails] = useState<ICountryDetails[]>([]);
-    const [changeChartData, setChangeChartData] = useState<
-        "population" | "area"
-    >("population");
+
     const [chartData, setChartData] = useState<{
         populationData: { x: string; y: number }[];
         areaData: { x: string; y: number }[];
@@ -171,36 +162,6 @@ function App() {
                 setChartData(chartData);
                 setCountryDetails(data);
             }
-
-            /*
-
-
-
-
-            if (data) {
-                const populationData = data.map((country: ICountry) => {
-                    return {
-                        x: country.name.common,
-                        y: country.population,
-                    };
-                });
-                const areaData = data.map((country: ICountry) => {
-                    return {
-                        x: country.name.common,
-                        y: country.area,
-                    };
-                });
-                const chartData = {
-                    populationData,
-                    areaData,
-                };
-                setChartData(chartData);
-            }
-
-            setCountryDetails(data);
-            // console.log(data);
-
-            */
         } catch (error) {
             console.error("Error:", error);
         }
@@ -224,14 +185,13 @@ function App() {
             />
 
             <div className="h-96 relative">
-                {/* <AppChart data={chartD} changeChartData={changeChartData} /> */}
                 <AppChart
                     data={
                         selectedOption === "population"
                             ? getChartData("population")
                             : getChartData("area")
                     }
-                    changeChartData={changeChartData}
+                    changeChartData={selectedOption}
                 />
             </div>
         </>
