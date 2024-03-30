@@ -1,34 +1,23 @@
 import { formatPopulation } from "@/lib/formatNumber";
-import { PointTooltipProps, ResponsiveLine } from "@nivo/line";
+import {
+    PointMouseHandler,
+    PointTooltipProps,
+    ResponsiveLine,
+} from "@nivo/line";
 import { useEffect, useState } from "react";
 import { customColors } from "@/lib/customColors";
 import { hexToRgba } from "@/lib/hexToRgba";
-import { IClickedPoint, ICountryDatum } from "@/types/Country";
-import CountryDetailsCard from "./CountryDetailsCard";
+import { IData } from "@/types/Country";
 import DragableCard from "./DragableCard";
 
-interface IDataPoint {
-    x: string;
-    y: number;
-}
-
-interface IClickedPointData {
-    color: string;
-    xFormatted: string;
-    y: number;
-    yFormatted: string;
-    x: string;
-    yStacked: number;
-}
-
-interface IDataPoint {
+interface IDataPoints {
     x: string;
     y: number;
 }
 
 interface Serie {
     id: string;
-    data: IDataPoint[];
+    data: IDataPoints[];
 }
 
 interface IProps {
@@ -38,18 +27,17 @@ interface IProps {
 
 const AppChart = ({ data, changeChartData }: IProps) => {
     console.log({ data });
-    const [selectedPoints, setSelectedPoints] = useState<ICountryDatum[]>([]);
-
-    const handlePointClick = (point: IClickedPoint | IClickedPoint[]) => {
+    const [selectedPoints, setSelectedPoints] = useState<IData[]>([]);
+    const handlePointClick: PointMouseHandler = (point) => {
         console.log("HandlePointclick", point);
 
-        setSelectedPoints((prevSelectedPoints: ICountryDatum[]) => {
+        setSelectedPoints((prevSelectedPoints) => {
             const pointIndex = prevSelectedPoints.findIndex(
                 (p) => p.x === point.data.x
             );
 
             if (pointIndex === -1) {
-                return [...prevSelectedPoints, point.data];
+                return [...prevSelectedPoints, point.data as IData];
             } else {
                 const updatedPoints = [...prevSelectedPoints];
                 updatedPoints.splice(pointIndex, 1);
@@ -58,6 +46,7 @@ const AppChart = ({ data, changeChartData }: IProps) => {
             }
         });
     };
+
     const CustomTooltip = ({ point }: PointTooltipProps) => {
         // console.log("customtooltip", { point });
         return (

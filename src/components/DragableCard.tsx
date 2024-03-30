@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
 import CountryDetailsCard from "./CountryDetailsCard";
-import { ICountryDatum } from "@/types/Country";
+import { IData } from "@/types/Country";
 import { DragDropContext, Draggable, DropResult } from "@hello-pangea/dnd";
 import CustomDroppableComponent from "./common/CustomDroppableComponent";
 
 interface IProps {
-    selectedPoints: ICountryDatum[];
-    updateSelectedPoints: (points: ICountryDatum[]) => void;
+    selectedPoints: IData[];
+    updateSelectedPoints: (points: IData[]) => void;
 }
 const DragableCard = ({ selectedPoints, updateSelectedPoints }: IProps) => {
-    const [points, setPoints] = React.useState<ICountryDatum[]>(selectedPoints);
+    const [points, setPoints] = React.useState<IData[]>(selectedPoints);
 
     const onDragEnd = (result: DropResult) => {
         if (!result.destination) {
@@ -21,7 +21,7 @@ const DragableCard = ({ selectedPoints, updateSelectedPoints }: IProps) => {
         newOrder.splice(result.destination.index, 0, movedItem);
 
         setPoints(newOrder);
-        updateSelectedPoints(newOrder); // Update selectedPoints in the parent component
+        updateSelectedPoints(newOrder);
     };
 
     useEffect(() => {
