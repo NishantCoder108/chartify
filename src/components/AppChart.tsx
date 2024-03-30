@@ -4,6 +4,8 @@ import { formatPopulation } from "@/lib/formatNumber";
 import { PointTooltipProps, ResponsiveLine } from "@nivo/line";
 import { useState } from "react";
 import * as d3 from "d3";
+import { customColors } from "@/lib/customColors";
+import { hexToRgba } from "@/lib/hexToRgba";
 
 interface Point {
     x: string;
@@ -104,6 +106,7 @@ const AppChart = ({ data, changeChartData }: IProps) => {
     );
 
     console.log({ selectedPoints });
+    console.log(customColors.length);
 
     // const debouncedHandlePointClick = debounce(handlePointClick, 250);
     return (
@@ -189,19 +192,49 @@ const AppChart = ({ data, changeChartData }: IProps) => {
                         const isSelected = selectedPoints.some(
                             (selectedPoint) => selectedPoint.x === e.datum.x
                         );
-                        const colorPunto = isSelected ? "red" : "blue";
-                        const colorBorde = isSelected
-                            ? "rgb(6,1,85)"
-                            : "rgba(6,1,85,0.58)";
+                        // const colorPunto = isSelected ? "red" : "blue";
+                        // const colorBorde = isSelected
+                        //     ? "rgb(6,1,85)"
+                        //     : "rgba(6,1,85,0.58)";
 
+                        // return (
+                        //     <circle
+                        //         cx="0"
+                        //         cy="0"
+                        //         r="5"
+                        //         stroke={colorBorde}
+                        //         strokeWidth="2"
+                        //         fill={colorPunto}
+                        //     />
+                        // );
+
+                        // const customColors = [
+                        //     // Add your custom colors here
+                        //     "red",
+                        //     "blue",
+                        //     "green",
+                        //     "yellow",
+                        // ];
+                        const color = isSelected
+                            ? customColors[
+                                  selectedPoints.findIndex(
+                                      (p) => p.x === e.datum.x
+                                  )
+                              ]
+                            : "blue";
                         return (
                             <circle
                                 cx="0"
                                 cy="0"
-                                r="5"
-                                stroke={colorBorde}
-                                strokeWidth="2"
-                                fill={colorPunto}
+                                r="3"
+                                // stroke={color}
+                                // strokeWidth="1"
+                                // fill={color}
+                                stroke={
+                                    isSelected ? hexToRgba(color, 0.54) : "blue"
+                                }
+                                strokeWidth={isSelected ? "5" : "1"}
+                                fill={color}
                             />
                         );
                     }}
@@ -276,7 +309,7 @@ const AppChart = ({ data, changeChartData }: IProps) => {
                             },
                         },
 
-                        background: "#EEEEEE",
+                        background: "white",
                     }}
                     crosshairType="x"
                     tooltip={CustomTooltip}
