@@ -1,30 +1,55 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Country Details Dashboard
 
-Currently, two official plugins are available:
+This project is a dashboard that displays short details about countries using Nivo charts. It allows users to click on points in the chart to view country details below the chart. The dashboard also supports dragging and dropping cards representing countries. When a card is dragged and dropped, the corresponding country is selected, and clicking on the point again deselects it. Additionally, clicking on a country point changes its color, highlighting it for better visibility.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![Dashboard Preview](dashboard-preview.png)
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Interactive Nivo chart displaying country data
+- Clicking on a country point in the chart displays details about the country below the chart
+- Drag-and-drop functionality for country cards
+- Selected countries are stored in a stack and can be deselected by clicking on the point again
+- Clicking on a point will highlight with different color of different country point it and show a card below the chart with the country's data.
 
-- Configure the top-level `parserOptions` property like this:
+## Technologies Used
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+- React.js for the frontend
+- Nivo for charting
+- Custom drag-and-drop functionality
+- Typescript and Vite
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Live Demo
+
+Check out the live demo [here](https://dynamofl.netlify.app/).
+
+![Live Demo Preview](live-demo-preview.png)
+
+## Getting Started
+
+To run the project locally, follow these steps:
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/NishantCoder108/dynamodb.git
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   cd dynamodb
+   npm install
+   ```
+
+3. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+4. Open your browser and navigate to `http://localhost:5173/` to view the app.
+
+
+
