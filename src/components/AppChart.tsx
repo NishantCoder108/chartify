@@ -3,6 +3,7 @@ import { PointTooltipProps, ResponsiveLine } from "@nivo/line";
 import { useState } from "react";
 import { customColors } from "@/lib/customColors";
 import { hexToRgba } from "@/lib/hexToRgba";
+import { ICountryDatum } from "@/types/Country";
 
 interface IDataPoint {
     x: string;
@@ -26,14 +27,21 @@ interface IClickedPoint {
     serieId: string;
     x: number;
     y: number;
-    data: IClickedPointData;
+    data: ICountryDatum;
+}
+
+interface IDataPoint {
+    x: string;
+    y: number;
+}
+
+interface Serie {
+    id: string;
+    data: IDataPoint[];
 }
 
 interface IProps {
-    data: {
-        id: string;
-        data?: IDataPoint[];
-    };
+    data: Serie[];
     changeChartData?: string;
 }
 
@@ -41,10 +49,10 @@ const AppChart = ({ data, changeChartData }: IProps) => {
     console.log({ data });
     const [selectedPoints, setSelectedPoints] = useState<IClickedPoint[]>([]);
 
-    const handlePointClick = (point) => {
+    const handlePointClick = (point: IClickedPoint | IClickedPoint[]) => {
         console.log("HandlePointclick", point);
 
-        setSelectedPoints((prevSelectedPoints) => {
+        setSelectedPoints((prevSelectedPoints: IClickedPoint[]) => {
             const pointIndex = prevSelectedPoints.findIndex(
                 (p) => p.x === point.data.x
             );
@@ -58,7 +66,7 @@ const AppChart = ({ data, changeChartData }: IProps) => {
         });
     };
     const CustomTooltip = ({ point }: PointTooltipProps) => {
-        console.log("cusotmtooltip", { point });
+        // console.log("customtooltip", { point });
         return (
             <div className="shadow-md py-3 px-4  bg-slate-50 rounded-md">
                 <table className="table-fixed">
@@ -119,7 +127,6 @@ const AppChart = ({ data, changeChartData }: IProps) => {
                     gridYValues={19}
                     enableGridX={false}
                     pointSize={5}
-                    // pointColor="blue"
                     pointBorderWidth={1}
                     pointBorderColor={{ from: "serieColor" }}
                     pointLabelYOffset={-12}

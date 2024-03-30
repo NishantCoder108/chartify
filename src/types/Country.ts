@@ -6,6 +6,26 @@ interface ICurrency {
 interface ICurrencies {
     [code: string]: ICurrency;
 }
+export interface ICountryDatum {
+    x: string;
+    y: number;
+    area: number;
+    population: number;
+    independent: boolean;
+    name: string;
+    region: string;
+    timezones: string[];
+    continents: string[];
+    capital: string[];
+
+    currencyLanguages: string | string[];
+    subregion: string;
+    flagPng: string;
+    flagSvg: string;
+    flagAlt: string;
+    currencySymbol?: string;
+    currencyName?: string;
+}
 
 export interface ICountry {
     altSpellings: string[];
