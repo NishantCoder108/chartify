@@ -6,53 +6,56 @@ import CustomDroppableComponent from "./common/CustomDroppableComponent";
 
 interface IProps {
     selectedPoints: ICountryDatum[];
+    updateSelectedPoints: (points: ICountryDatum[]) => void;
 }
-const DragableCard = ({ selectedPoints }: IProps) => {
-    const [points, setPoints] = React.useState(selectedPoints || []); // use state to keep track of points
+const DragableCard = ({ selectedPoints, updateSelectedPoints }: IProps) => {
+    const [points, setPoints] = React.useState<ICountryDatum[]>(selectedPoints);
 
     const onDragEnd = (result: DropResult) => {
         if (!result.destination) {
             return;
         }
 
-        console.log({ points });
+        const newOrder = Array.from(points);
+        const [movedItem] = newOrder.splice(result.source.index, 1);
+        newOrder.splice(result.destination.index, 0, movedItem);
 
-        const items = Array.from(points);
-        const [reorderedItem] = items.splice(result.source.index, 1);
-
-        items.splice(result.destination.index, 0, reorderedItem);
-
-        setPoints(items);
+        setPoints(newOrder);
+        updateSelectedPoints(newOrder); // Update selectedPoints in the parent component
     };
 
     useEffect(() => {
-        setPoints(selectedPoints || []);
+        setPoints(selectedPoints);
     }, [selectedPoints]);
 
+    console.log({ points });
     return (
         <DragDropContext onDragEnd={onDragEnd}>
             <CustomDroppableComponent droppableId="droppable">
-                {points.length > 0
-                    ? points.map((selectedPoint, i) => (
-                          <Draggable
-                              key={selectedPoint.x + i}
-                              draggableId={selectedPoint.x + i}
-                              index={i}
-                          >
-                              {(provided) => (
-                                  <div
-                                      ref={provided.innerRef}
-                                      {...provided.draggableProps}
-                                      {...provided.dragHandleProps}
-                                  >
-                                      <CountryDetailsCard
-                                          countryDetails={selectedPoint}
-                                      />
-                                  </div>
-                              )}
-                          </Draggable>
-                      ))
-                    : "No selected points."}
+                <div className="flex p-3 items-start justify-evenly flex-wrap gap-4 rounded-lg ">
+                    {points.length > 0
+                        ? points.map((selectedPoint, i) => (
+                              <Draggable
+                                  key={selectedPoint.x + i}
+                                  draggableId={selectedPoint.x + i}
+                                  index={i}
+                              >
+                                  {(provided) => (
+                                      <div
+                                          ref={provided.innerRef}
+                                          {...provided.draggableProps}
+                                          {...provided.dragHandleProps}
+                                          className=""
+                                      >
+                                          <CountryDetailsCard
+                                              countryDetails={selectedPoint}
+                                          />
+                                      </div>
+                                  )}
+                              </Draggable>
+                          ))
+                        : "No selected points."}
+                </div>
             </CustomDroppableComponent>
         </DragDropContext>
     );

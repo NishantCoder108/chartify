@@ -22,11 +22,9 @@ const CustomDroppableComponent: React.FC<CustomDroppableComponentProps> = ({
             ) => (
                 <div
                     ref={provided.innerRef}
-                    style={{
-                        backgroundColor: snapshot.isDraggingOver
-                            ? "blue"
-                            : "grey",
-                    }}
+                    className={
+                        snapshot.isDraggingOver ? "bg-slate-200" : "bg-slate-50"
+                    }
                     {...provided.droppableProps}
                 >
                     {children}

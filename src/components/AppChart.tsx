@@ -211,7 +211,10 @@ const AppChart = ({ data, changeChartData }: IProps) => {
             </div>
 
             <div className="h-full">
-                <DragableCard selectedPoints={selectedPoints} />
+                <DragableCard
+                    selectedPoints={selectedPoints}
+                    updateSelectedPoints={setSelectedPoints}
+                />
             </div>
         </>
     );
