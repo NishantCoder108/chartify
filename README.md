@@ -3,7 +3,7 @@
 
 This project is a dashboard that displays short details about countries using Nivo charts. It allows users to click on points in the chart to view country details below the chart. The dashboard also supports dragging and dropping cards representing countries. When a card is dragged and dropped, the corresponding country is selected, and clicking on the point again deselects it. Additionally, clicking on a country point changes its color, highlighting it for better visibility.
 
-![Dashboard Preview](dashboard-preview.png)
+![Dashboard Preview](dynomdb.png)
 
 ## Features
 
@@ -24,7 +24,7 @@ This project is a dashboard that displays short details about countries using Ni
 
 Check out the live demo [here](https://dynamofl.netlify.app/).
 
-![Live Demo Preview](live-demo-preview.png)
+
 
 ## Getting Started
 
