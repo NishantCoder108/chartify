@@ -5,7 +5,7 @@ export const hexToRgba = (hex: string, alpha: number) => {
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };
 
-// Usage
-const fillColorHex = "#ff0000"; // Your hex color
-const fillColorWithOpacity = hexToRgba(fillColorHex, 0.54);
-console.log({ fillColorWithOpacity });
+// // Usage
+// const fillColorHex = "#ff0000"; // Your hex color
+// const fillColorWithOpacity = hexToRgba(fillColorHex, 0.54);
+// console.log({ fillColorWithOpacity });

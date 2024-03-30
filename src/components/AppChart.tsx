@@ -28,6 +28,7 @@ interface IProps {
 const AppChart = ({ data, changeChartData }: IProps) => {
     console.log({ data });
     const [selectedPoints, setSelectedPoints] = useState<IData[]>([]);
+
     const handlePointClick: PointMouseHandler = (point) => {
         console.log("HandlePointclick", point);
 
