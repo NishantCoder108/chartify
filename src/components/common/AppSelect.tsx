@@ -8,15 +8,16 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 
+type SelectedOption = "population" | "area";
 interface ISelectItems {
-    selectItems: string[];
-    handleValueChange: (data: string) => void;
+    selectItems: SelectedOption[];
+    handleValueChange: (data: SelectedOption) => void;
 }
 export function AppSelect({ selectItems, handleValueChange }: ISelectItems) {
     return (
         <Select
             defaultValue={selectItems[0]}
-            onValueChange={(data: string) => handleValueChange(data)}
+            onValueChange={(data: SelectedOption) => handleValueChange(data)}
         >
             <div className="bg-white">
                 <SelectTrigger className="w-[180px] cursor-pointer text-xs">

@@ -1,63 +1,28 @@
 import { useEffect, useState } from "react";
 import { AppSelect } from "./components/common/AppSelect";
 import AppChart from "./components/AppChart";
-import { ICountry, ICountryDatum } from "./types/Country";
+import { ICountryDatum, ICountryDetails } from "./types/Country";
 
-interface Currency {
-    name: string;
-    symbol: string;
+type SelectedOption = "population" | "area";
+interface ChartData {
+    populationData: { x: string; y: number }[];
+    areaData: { x: string; y: number }[];
 }
-
-interface CurrencyData {
-    [key: string]: Currency;
-}
-interface ICountryDetails {
-    name: { common: string };
-    capital: string[];
-    population: number;
-    area: number;
-    currencyName?: string;
-    currencySymbol?: string;
-    languages: string[];
-    currencies: CurrencyData;
-    timezones: string[];
-    flag?: string;
-    independent: boolean;
-    subregion: string;
-    continents: string[];
-    region: string;
-    flags: {
-        svg: string;
-        png: string;
-        alt: string;
-    };
-    flagPng?: string;
-    flagSvg?: string;
-    flagAlt?: string;
-}
-
 function App() {
-    const [countryDetails, setCountryDetails] = useState<ICountryDetails[]>([]);
-
-    const [chartData, setChartData] = useState<{
-        populationData: { x: string; y: number }[];
-        areaData: { x: string; y: number }[];
-    }>({
+    const [chartData, setChartData] = useState<ChartData>({
         populationData: [],
         areaData: [],
     });
-
-    const [selectedOption, setSelectedOption] = useState<"population" | "area">(
-        "population"
-    );
+    const [selectedOption, setSelectedOption] =
+        useState<SelectedOption>("population");
 
     console.log({ chartData });
 
-    const handleChangeValue = (data: "population" | "area") => {
+    const handleChangeValue = (data: SelectedOption) => {
         setSelectedOption(data);
     };
 
-    const getChartData = (option: "population" | "area") => {
+    const getChartData = (option: SelectedOption) => {
         const dataKey = option === "population" ? "populationData" : "areaData";
         return [
             {
@@ -158,9 +123,7 @@ function App() {
                     { populationData: [], areaData: [] }
                 );
 
-                console.log({ chartData });
                 setChartData(chartData);
-                setCountryDetails(data);
             }
         } catch (error) {
             console.error("Error:", error);
@@ -171,12 +134,14 @@ function App() {
         fetchData();
     }, []);
 
-    console.log({ countryDetails });
     console.log({ chartData });
 
-    if (!chartData) return <h1>Loading...</h1>;
-
-    if (chartData.populationData.length < 1) return;
+    if (
+        chartData.areaData.length === 0 ||
+        chartData.populationData.length === 0
+    ) {
+        return "Loading...";
+    }
     return (
         <div className="p-3">
             <div className="flex gap-4 items-center text-sm justify-start px-3 pt-4">
