@@ -51,7 +51,10 @@ const CountryDetailsCard = ({ countryDetails }: IProps) => {
                             {independent ? "Yes" : "No"}
                         </li>
                         <li>
-                            <strong>Timezones:</strong> {timezones.join(", ")}
+                            <strong>Timezones:</strong>{" "}
+                            {Array.isArray(timezones)
+                                ? timezones.join(", ")
+                                : timezones}
                         </li>
                         <li>
                             <strong>Currency:</strong> {currencyName} (
