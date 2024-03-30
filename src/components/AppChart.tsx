@@ -90,27 +90,30 @@ const AppChart = ({ data, changeChartData }: IProps) => {
             }
         });
     };
-    const CustomTooltip = ({ point }: PointTooltipProps) => (
-        <div className="shadow-md py-3 px-4  bg-slate-50 rounded-md">
-            <table className="table-fixed">
-                <tbody>
-                    <tr className="text-sm font-bold text-[#0f172a]">
-                        <td className="pr-1">Country </td>
-                        <td>: {point.data.xFormatted} </td>
-                    </tr>
-                    <tr className="text-slate-500 text-sm font-semibold">
-                        <td className="pr-1">Population </td>
-                        <td>
-                            :{" "}
-                            {formatPopulation(
-                                parseInt(point.data.yFormatted as string)
-                            )}{" "}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    );
+    const CustomTooltip = ({ point }: PointTooltipProps) => {
+        console.log("cusotmtooltip", { point });
+        return (
+            <div className="shadow-md py-3 px-4  bg-slate-50 rounded-md">
+                <table className="table-fixed">
+                    <tbody>
+                        <tr className="text-sm font-semibold text-[#0f172a]">
+                            <td className="pr-1">Country </td>
+                            <td>: {point.data.xFormatted} </td>
+                        </tr>
+                        <tr className="text-slate-500 text-sm font-semibold">
+                            <td className="pr-1">{point.serieId} </td>
+                            <td>
+                                :{" "}
+                                {formatPopulation(
+                                    parseInt(point.data.yFormatted as string)
+                                )}{" "}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        );
+    };
 
     console.log({ selectedPoints });
     console.log(customColors.length);

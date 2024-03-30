@@ -72,7 +72,7 @@ function App() {
     // console.log({ populationData });
     const chartD = [
         {
-            id: "country",
+            id: changeChartData === "population" ? "Population" : "Area",
 
             data: changeChartData === "population" ? populationData : areaData,
         },
