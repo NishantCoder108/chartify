@@ -5,6 +5,7 @@ import { customColors } from "@/lib/customColors";
 import { hexToRgba } from "@/lib/hexToRgba";
 import { IClickedPoint, ICountryDatum } from "@/types/Country";
 import CountryDetailsCard from "./CountryDetailsCard";
+import DragableCard from "./DragableCard";
 
 interface IDataPoint {
     x: string;
@@ -209,15 +210,8 @@ const AppChart = ({ data, changeChartData }: IProps) => {
                 />
             </div>
 
-            <div className="my-11 p-1 lg:p-6   border-t-2  border-slate-200 flex flex-wrap items-start justify-evenly gap-6">
-                {selectedPoints.length > 0
-                    ? selectedPoints?.map((selectedPoint, i) => (
-                          <CountryDetailsCard
-                              key={selectedPoint.x + i}
-                              countryDetails={selectedPoint}
-                          />
-                      ))
-                    : "No selected points."}
+            <div>
+                <DragableCard selectedPoints={selectedPoints} />
             </div>
         </>
     );

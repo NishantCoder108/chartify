@@ -1,5 +1,4 @@
 import { formatPopulation } from "@/lib/formatNumber";
-import { cn } from "@/lib/utils";
 import { ICountryDatum } from "@/types/Country";
 
 interface IProps {
@@ -14,14 +13,11 @@ const CountryDetailsCard = ({ countryDetails }: IProps) => {
         currencyLanguages,
         flagAlt,
         flagPng,
-        flagSvg,
         independent,
         population,
         region,
         subregion,
         timezones,
-        x,
-        y,
         currencyName,
         currencySymbol,
     } = countryDetails;
